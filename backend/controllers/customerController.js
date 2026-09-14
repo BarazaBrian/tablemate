@@ -57,8 +57,65 @@ const createCustomer = (req, res) => {
     });
 };
 
+
+const updateCustomer = (req, res) => {
+    const id = req.params.id;
+
+    const updatedCustomer = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email
+    };
+
+    Customer.update(id, updatedCustomer, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({
+                message: "Error updating customer"
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Customer not found"
+            });
+        }
+
+        res.json({
+            message: "Customer updated successfully"
+        });
+    });
+};
+
+
+    const deleteCustomer = (req, res) => {
+    const id = req.params.id;
+
+    Customer.delete(id, (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({
+                message: "Error deleting customer"
+            });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Customer not found"
+            });
+        }
+
+        res.json({
+            message: "Customer deleted successfully"
+        });
+    });
+};
+
 module.exports = {
     getAllCustomers,
     getCustomerById,
-    createCustomer
+    createCustomer,
+    updateCustomer,
+    deleteCustomer
 };
+   
