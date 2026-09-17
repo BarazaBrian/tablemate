@@ -2,12 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./config/database");
 const customerRoutes = require("./routes/customerRoutes");
+const staffRoutes = require("./routes/staffRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/customers", customerRoutes);
+app.use("/api/staff", staffRoutes);
 
 app.get("/", (req, res) => {
     res.send("TableMate backend is running");
