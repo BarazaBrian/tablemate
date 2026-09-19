@@ -25,8 +25,12 @@ CREATE TABLE reservations (
     number_of_people INT NOT NULL,
     status VARCHAR(20) NOT NULL,
 
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
-    FOREIGN KEY (table_id) REFERENCES restaurant_tables(table_id)
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+    FOREIGN KEY (table_id) REFERENCES restaurant_tables(table_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
 );
 
 CREATE TABLE restaurant_staff (
