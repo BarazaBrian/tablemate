@@ -31,8 +31,6 @@ CREATE TABLE reservations (
 );
 
 
-);
-
 CREATE TABLE restaurant_staff (
     staff_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
