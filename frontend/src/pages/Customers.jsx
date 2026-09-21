@@ -23,9 +23,9 @@ function Customers() {
                 "http://localhost:5000/api/customers"
             );
 
-            if (!response.ok) {
-                throw new Error("Unable to load customers");
-            }
+        if (!response.ok) {
+            throw new Error("Unable to load customers");
+        }
 
             const data = await response.json();
             setCustomers(data);
@@ -47,7 +47,7 @@ function Customers() {
             return response.json();
         })
         .then((data) => {
-            
+
             setCustomers(data);
             setLoading(false);
         })
@@ -180,8 +180,11 @@ function Customers() {
             );
 
             if (!response.ok) {
-                throw new Error("Unable to delete customer");
-            }
+               const data = await response.json();
+               throw new Error(
+                  data.message || "Unable to delete customer"
+               );
+           }
 
             setMessage("Customer deleted successfully.");
             setError("");
@@ -189,10 +192,8 @@ function Customers() {
             loadCustomers();
 
         } catch (error) {
-            console.error(error);
-            setError(
-                "Unable to delete customer. The customer may have existing reservations."
-            );
+             console.error(error);
+             setError(error.message);
         }
     };
 
