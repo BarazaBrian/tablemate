@@ -88,12 +88,20 @@ const updateCustomer = (req, res) => {
 };
 
 
-    const deleteCustomer = (req, res) => {
+ const deleteCustomer = (req, res) => {
     const id = req.params.id;
 
     Customer.delete(id, (err, result) => {
         if (err) {
             console.error(err);
+
+            if (err.code === "ER_ROW_IS_REFERENCED_2") {
+                return res.status(409).json({
+                    message:
+                        "Customer cannot be deleted because they have existing reservations."
+                });
+            }
+
             return res.status(500).json({
                 message: "Error deleting customer"
             });
