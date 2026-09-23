@@ -5,6 +5,7 @@ const customerRoutes = require("./routes/customerRoutes");
 const staffRoutes = require("./routes/staffRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const resTable = require("./routes/resTablesRoutes")
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/restables")
 
 app.get("/", (req, res) => {
     res.send("TableMate backend is running");
