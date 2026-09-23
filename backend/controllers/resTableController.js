@@ -7,7 +7,7 @@ const getallTables = (req, res) => {
         if (err) {
             console.error(err);
             return res.status(500).json({
-                message: "Error retrieving customers"
+                message: "Error retrieving restaurant tables"
             });
         };
 
@@ -25,7 +25,7 @@ const getTableById = (req, res) => {
         if (err) { 
             console.error(err);
             return res.status(500).json({
-                message:"Error retrieving customer"
+                message:"Error retrieving restaurant tables"
             });
         };
 
@@ -70,7 +70,7 @@ resTable.update(tableId, updatedResTable, (err, result) => {
     if (err) {
         console.error(err);
         return res.status(500).json({
-            message: "Error updateing restaurant table"
+            message: "Error updating restaurant table"
         })
     }
 
@@ -93,7 +93,7 @@ const deletedResTable = (req,res) => {
         if (err) {
             console.error(err);
             return res.status(500).json({
-                message: "Error deleting table" 
+                message: "Error deleting restaurant table" 
             });
         }
 
@@ -110,4 +110,4 @@ const deletedResTable = (req,res) => {
     });
 };
 
-module.exports = getallTables, getTableById, createResTable, updateResTable, deletedResTable
+module.exports = {getallTables, getTableById, createResTable, updateResTable, deletedResTable}
