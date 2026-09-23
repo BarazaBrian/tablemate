@@ -27,7 +27,7 @@ const resTable = {
     update: (id, resTable ,callback) => { 
 
         const sql = "UPDATE restaurant_tables SET table_number = ?, capacity = ?, status = ? WHERE table_id = ?";
-        db.query(sql, [id, resTable.table_number, resTable.capacity, resTable.status], callback);
+        db.query(sql, [resTable.table_number, resTable.capacity, resTable.status, id], callback);
 
     },
 

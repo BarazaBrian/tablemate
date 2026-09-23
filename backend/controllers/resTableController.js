@@ -2,7 +2,7 @@ const resTable = require("../models/resTableModel");
 
 const getallTables = (req, res) => {
 
-    resTable.getallTables((err, results) => {
+    resTable.getAll((err, results) => {
         // if there is an error, send message
         if (err) {
             console.error(err);
@@ -17,7 +17,10 @@ const getallTables = (req, res) => {
 
 const getTableById = (req, res) => {
 
-    resTable.getById((err, results) => {
+    const tableId = req.params.id;
+
+
+    resTable.getById(tableId, (err, results) => {
 
         if (err) { 
             console.error(err);
@@ -63,7 +66,7 @@ const updateResTable = (req, res) => {
         status: req.body.status
     };
 
-resTable.updateResTable(tableId, updatedResTable, (err, result) => {
+resTable.update(tableId, updatedResTable, (err, result) => {
     if (err) {
         console.error(err);
         return res.status(500).json({
@@ -86,7 +89,7 @@ resTable.updateResTable(tableId, updatedResTable, (err, result) => {
 const deletedResTable = (req,res) => {
     const tableId = req.params.id;
 
-    resTable.deletedResTable(tableId, (err, results) => {
+    resTable.delete(tableId, (err, results) => {
         if (err) {
             console.error(err);
             return res.status(500).json({
@@ -105,8 +108,6 @@ const deletedResTable = (req,res) => {
             message: "Restaurant Table deleted successfully"
         });
     });
+};
 
-module.exports = {getallTables, getTableById, createResTable, updateResTable, deletedResTable};
-    
-
-}
+module.exports = getallTables, getTableById, createResTable, updateResTable, deletedResTable
