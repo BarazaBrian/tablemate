@@ -26,13 +26,13 @@ const resTable = {
 
     update: (id, resTable ,callback) => { 
 
-        const sql = "UPDATE resTable SET table_number = ?, capacity = ?, status = ? WHERE table_id = ?";
-        db.query(sql, [id, resTable.table_number, resTable.capacity, resTable.status], callback);
+        const sql = "UPDATE restaurant_tables SET table_number = ?, capacity = ?, status = ? WHERE table_id = ?";
+        db.query(sql, [resTable.table_number, resTable.capacity, resTable.status, id], callback);
 
     },
 
     delete: (id, callback) => {
-    const sql = "DELETE FROM resTable WHERE table_id = ?";
+    const sql = "DELETE FROM restaurant_tables WHERE table_id = ?";
     db.query(sql, [id], callback);
     }
 

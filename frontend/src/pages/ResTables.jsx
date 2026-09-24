@@ -1,34 +1,14 @@
 import { useEffect, useState } from "react";
 import "./style.css";
 
-function Reservation() {
-    const [reservations, setReservations] = useState([]);
-    const [customers, setCustomers] = useState([]);
+function ResTables() {
     const [tables, setTables] = useState([]);
 
     const [formData, setFormData] = useState({
-        customer_id: "",
-        table_id: "",
-        reservation_date: "",
-        reservation_time: "",
-        number_of_people: "",
-        status:""
-
+        table_number: "",
+        capacity: "",
+        status: ""
     });
-
-
-    const formatDate = (date) => {
-        return new Date(date).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        });
-    };
-
-    const formatTime = (time) => {
-        return time ? time.slice(0, 5) : "";
-    };
-
 
     const [editingId, setEditingId] = useState(null);
     const [showForm, setShowForm] = useState(false);
@@ -36,29 +16,22 @@ function Reservation() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
 
-    // Load all reservations
-    const loadReservations = async () => {
+    // Load all restaurant tables
+    const loadTables = async () => {
         try {
-            const [resResponse, custResponse, tabResponse] = await Promise.all([
-                fetch("http://localhost:5000/api/reservations"),
-                fetch("http://localhost:5000/api/customers"),
-                fetch("http://localhost:5000/api/restables")
-            ]);
+            const response = await fetch(
+                "http://localhost:5000/api/restables"
+            );
 
-            if (!resResponse.ok || !custResponse.ok || !tabResponse.ok) {
-                throw new Error("Unable to load dashboard data");
+            if (!response.ok) {
+                throw new Error("Unable to load tables");
             }
 
-            const reservationsData = await resResponse.json();
-            const customersData = await custResponse.json();
-            const tablesData = await tabResponse.json();
-
-            setReservations(reservationsData);
-            setCustomers(customersData);
-            setTables(tablesData);
+            const data = await response.json();
+            setTables(data);
         } catch (error) {
             console.error(error);
-            setError("Unable to load reservations.");
+            setError("Unable to load tables.");
         } finally {
             setLoading(false);
         }
@@ -66,7 +39,7 @@ function Reservation() {
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        loadReservations();
+        loadTables();
     }, []);
 
     // Update form values
@@ -82,11 +55,8 @@ function Reservation() {
     // Reset form
     const resetForm = () => {
         setFormData({
-            customer_id: "",
-            table_id: "",
-            reservation_date: "",
-            reservation_time: "",
-            number_of_people: "",
+            table_number: "",
+            capacity: "",
             status: ""
         });
 
@@ -94,7 +64,7 @@ function Reservation() {
         setShowForm(false);
     };
 
-    // Add or update customer
+    // Add or update table
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -102,14 +72,11 @@ function Reservation() {
         setMessage("");
 
         if (
-            !formData.customer_id ||
-            !formData.table_id ||
-            !formData.reservation_date.trim() ||
-            !formData.reservation_time.trim() ||
-            !formData.number_of_people ||
+            !formData.table_number &&
+            !formData.capacity &&
             !formData.status
         ) {
-            setError("Please complete all reservation fields.");
+            setError("Please complete all table fields.");
             return;
         }
 
@@ -118,7 +85,7 @@ function Reservation() {
 
             if (editingId) {
                 response = await fetch(
-                    `http://localhost:5000/api/reservations/${editingId}`,
+                    `http://localhost:5000/api/restables/${editingId}`,
                     {
                         method: "PUT",
                         headers: {
@@ -129,7 +96,7 @@ function Reservation() {
                 );
             } else {
                 response = await fetch(
-                    "http://localhost:5000/api/reservations",
+                    "http://localhost:5000/api/restables",
                     {
                         method: "POST",
                         headers: {
@@ -141,42 +108,33 @@ function Reservation() {
             }
 
             if (!response.ok) {
-                throw new Error("Unable to save reservation");
+                throw new Error("Unable to save table");
             }
 
             if (editingId) {
-                setMessage("Reservation updated successfully.");
+                setMessage("Table updated successfully.");
             } else {
-                setMessage("Reservation added successfully.");
+                setMessage("Table added successfully.");
             }
 
             resetForm();
-            loadReservations();
+            loadTables();
 
         } catch (error) {
             console.error(error);
-            setError("Unable to save reservation.");
+            setError("Unable to save table.");
         }
     };
 
-    // Prepare reservation for editing
-    const handleEdit = (reservation) => {
+    // Prepare table for editing
+    const handleEdit = (table) => {
         setFormData({
-            customer_id: reservation.customer_id,
-            table_id: reservation.table_id,
-            reservation_date: reservation.reservation_date
-                ? new Date(reservation.reservation_date).toISOString().split("T")[0]
-                : "",
-
-            reservation_time: reservation.reservation_time
-                ? reservation.reservation_time.slice(0, 5)
-                : "",
-
-            number_of_people: reservation.number_of_people,
-            status: reservation.status
+            table_number: table.table_number,
+            capacity: table.capacity,
+            status: table.status
         });
 
-        setEditingId(reservation.reservation_id);
+        setEditingId(table.table_id);
         setShowForm(true);
         setMessage("");
         setError("");
@@ -187,10 +145,10 @@ function Reservation() {
         });
     };
 
-    // Delete customer
-    const handleDelete = async (reservationId) => {
+    // Delete table
+    const handleDelete = async (tableId) => {
         const confirmed = window.confirm(
-            "Are you sure you want to delete this reservation?"
+            "Are you sure you want to delete this table?"
         );
 
         if (!confirmed) {
@@ -199,7 +157,7 @@ function Reservation() {
 
         try {
             const response = await fetch(
-                `http://localhost:5000/api/reservations/${reservationId}`,
+                `http://localhost:5000/api/restables/${tableId}`,
                 {
                     method: "DELETE"
                 }
@@ -208,19 +166,32 @@ function Reservation() {
             if (!response.ok) {
                const data = await response.json();
                throw new Error(
-                  data.message || "Unable to delete reservation"
+                  data.message || "Unable to delete table"
                );
            }
 
-            setMessage("Reservation deleted successfully.");
+            setMessage("Table deleted successfully.");
             setError("");
 
-            loadReservations();
+            loadTables();
 
         } catch (error) {
              console.error(error);
              setError(error.message);
         }
+    };
+
+    // Status badge class helper
+    const getStatusClass = (status) => {
+        if (status === "Available") {
+            return "status-available";
+        }
+
+        if (status === "Unavailable") {
+            return "status-unavailable";
+        }
+
+        return "status-pending";
     };
 
     return (
@@ -229,10 +200,11 @@ function Reservation() {
 
                 <div className="tm-header">
                     <div>
-                        <h1>Reservations</h1>
+
+                        <h1>Restaurant Tables</h1>
 
                         <p className="tm-subtitle">
-                            Manage restaurant reservation records
+                            Manage restaurant table inventory
                         </p>
                     </div>
 
@@ -245,7 +217,7 @@ function Reservation() {
                             setMessage("");
                         }}
                     >
-                        Add Reservation
+                        Add Table
                     </button>
                 </div>
 
@@ -268,14 +240,14 @@ function Reservation() {
                             <div>
                                 <h2>
                                     {editingId
-                                        ? "Edit Reservation"
-                                        : "Add Reservation"}
+                                        ? "Edit Table"
+                                        : "Add Table"}
                                 </h2>
 
                                 <p>
                                     {editingId
-                                        ? "Update the reservation's information."
-                                        : "Enter the reservation's information below."}
+                                        ? "Update the table's information."
+                                        : "Enter the table's information below."}
                                 </p>
                             </div>
                         </div>
@@ -286,87 +258,32 @@ function Reservation() {
                         >
 
                             <div className="tm-form-group">
-                                <label htmlFor="customer_id">
-                                    Customer
-                                </label>
-
-                                <select
-                                    type="text"
-                                    id="customer_id"
-                                    name="customer_id"
-                                    value={formData.customer_id}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select customer</option>
-                                    {customers.map((cust) => (
-                                        <option key={cust.customer_id} value={cust.customer_id}>
-                                            {cust.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="tm-form-group">
-                                <label htmlFor="table_id">
-                                    Table
-                                </label>
-
-                                <select
-                                    type="text"
-                                    id="table_id"
-                                    name="table_id"
-                                    value={formData.table_id}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select table</option>
-                                    {tables.map((tab) => (
-                                        <option key={tab.table_id} value={tab.table_id}>
-                                            Table {tab.table_number}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            <div className="tm-form-group">
-                                <label htmlFor="reservation_date">
-                                    Date
-                                </label>
-
-                                <input
-                                    type="date"
-                                    id="reservation_date"
-                                    name="reservation_date"
-                                    value={formData.reservation_date}
-                                    onChange={handleChange}
-                                />
-                            </div>
-
-                            <div className="tm-form-group">
-                                <label htmlFor="reservation_time">
-                                    Time
-                                </label>
-
-                                <input
-                                    type="time"
-                                    id="reservation_time"
-                                    name="reservation_time"
-                                    value={formData.reservation_time}
-                                    onChange={handleChange}
-                                />
-                            </div>
-
-                            <div className="tm-form-group">
-                                <label htmlFor="number_of_people">
-                                    Number of People
+                                <label htmlFor="table_number">
+                                    Table Number
                                 </label>
 
                                 <input
                                     type="number"
-                                    id="number_of_people"
-                                    name="number_of_people"
-                                    value={formData.number_of_people}
+                                    id="table_number"
+                                    name="table_number"
+                                    value={formData.table_number}
                                     onChange={handleChange}
-                                    placeholder="Enter number of guests"
+                                    placeholder="e.g. 6"
+                                />
+                            </div>
+
+                            <div className="tm-form-group">
+                                <label htmlFor="capacity">
+                                    Capacity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="capacity"
+                                    name="capacity"
+                                    value={formData.capacity}
+                                    onChange={handleChange}
+                                    placeholder="e.g. 4"
                                 />
                             </div>
 
@@ -376,17 +293,14 @@ function Reservation() {
                                 </label>
 
                                 <select
-                                    type="text"
                                     id="status"
                                     name="status"
                                     value={formData.status}
                                     onChange={handleChange}
                                 >
                                     <option value="">Select status</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Confirmed">Confirmed</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                    <option value="Completed">Completed</option>
+                                    <option value="Available">Available</option>
+                                    <option value="Unavailable">Unavailable</option>
                                 </select>
                             </div>
 
@@ -396,8 +310,8 @@ function Reservation() {
                                     className="tm-save-btn"
                                 >
                                     {editingId
-                                        ? "Update Reservation"
-                                        : "Save Reservation"}
+                                        ? "Update Table"
+                                        : "Save Table"}
                                 </button>
 
                                 <button
@@ -417,18 +331,18 @@ function Reservation() {
 
                     <div className="tm-list-heading">
                         <div>
-                            <h2>Reservation Directory</h2>
+                            <h2>Table Inventory</h2>
 
                             <p>
-                                {reservations.length} registered reservation
-                                {reservations.length !== 1 ? "s" : ""}
+                                {tables.length} registered table
+                                {tables.length !== 1 ? "s" : ""}
                             </p>
                         </div>
                     </div>
 
                     {loading ? (
                         <div className="tm-loading">
-                            Loading reservations...
+                            Loading tables...
                         </div>
                     ) : (
                         <div className="table-responsive">
@@ -437,11 +351,8 @@ function Reservation() {
 
                                 <thead>
                                     <tr>
-                                        <th>Customer</th>
-                                        <th>Table</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Guests</th>
+                                        <th>Table Number</th>
+                                        <th>Capacity</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -449,53 +360,35 @@ function Reservation() {
 
                                 <tbody>
 
-                                    {reservations.length === 0 ? (
+                                    {tables.length === 0 ? (
                                         <tr>
                                             <td
-                                                colSpan="7"
+                                                colSpan="4"
                                                 className="tm-empty"
                                             >
-                                                No reservations available.
+                                                No tables available.
                                             </td>
                                         </tr>
                                     ) : (
-                                        reservations.map((reservation) => (
+                                        tables.map((table) => (
                                             <tr
-                                                key={reservation.reservation_id}
+                                                key={table.table_id}
                                             >
                                                 <td className="tm-cell-name">
-                                                    {reservation.customer_name}
+                                                    {table.table_number}
                                                 </td>
 
                                                 <td>
-                                                    Table {reservation.table_number}
-                                                </td>
-
-                                                <td>
-                                                    {formatDate(reservation.reservation_date)}
-                                                </td>
-
-                                                <td>
-                                                    {formatTime(reservation.reservation_time)}
-                                                </td>
-
-                                                <td>
-                                                    {reservation.number_of_people}
+                                                    {table.capacity}
                                                 </td>
 
                                                 <td>
                                                     <span
                                                         className={`status ${
-                                                            reservation.status === "Confirmed"
-                                                                ? "status-confirmed"
-                                                                : reservation.status === "Cancelled"
-                                                                    ? "status-cancelled"
-                                                                    : reservation.status === "Completed"
-                                                                        ? "status-completed"
-                                                                        : "status-pending"
+                                                            getStatusClass(table.status)
                                                         }`}
                                                     >
-                                                        {reservation.status}
+                                                        {table.status}
                                                     </span>
                                                 </td>
 
@@ -506,7 +399,7 @@ function Reservation() {
                                                             className="tm-edit-btn"
                                                             onClick={() =>
                                                                 handleEdit(
-                                                                    reservation
+                                                                    table
                                                                 )
                                                             }
                                                         >
@@ -517,7 +410,7 @@ function Reservation() {
                                                             className="tm-delete-btn"
                                                             onClick={() =>
                                                                 handleDelete(
-                                                                    reservation.reservation_id
+                                                                    table.table_id
                                                                 )
                                                             }
                                                         >
@@ -544,4 +437,4 @@ function Reservation() {
     );
 }
 
-export default Reservation;
+export default ResTables;

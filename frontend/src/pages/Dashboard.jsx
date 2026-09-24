@@ -80,14 +80,11 @@ function Dashboard() {
                 {/* Header */}
                 <div className="dashboard-top">
                     <div>
-                        <p className="dashboard-brand">
-                            TableMate
-                        </p>
 
                         <h1>Restaurant Overview</h1>
 
                         <p className="dashboard-subtitle">
-                            A quick view of your restaurant activity.
+                            Restaurant activity quick view
                         </p>
                     </div>
 
