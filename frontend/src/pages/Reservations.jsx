@@ -16,13 +16,27 @@ function Reservation() {
 
     });
 
+
+    const formatDate = (date) => {
+        return new Date(date).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        });
+    };
+
+    const formatTime = (time) => {
+        return time ? time.slice(0, 5) : "";
+    };
+
+
     const [editingId, setEditingId] = useState(null);
     const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
 
-    // Load all customers
+    // Load all reservations
     const loadReservations = async () => {
         try {
             const [resResponse, custResponse, tabResponse] = await Promise.all([
@@ -456,11 +470,11 @@ function Reservation() {
                                                 </td>
 
                                                 <td>
-                                                    {reservation.reservation_date}
+                                                    {formatDate(reservation.reservation_date)}
                                                 </td>
 
                                                 <td>
-                                                    {reservation.reservation_time}
+                                                    {formatTime(reservation.reservation_time)}
                                                 </td>
 
                                                 <td>
@@ -473,10 +487,10 @@ function Reservation() {
                                                             reservation.status === "Confirmed"
                                                                 ? "status-confirmed"
                                                                 : reservation.status === "Cancelled"
-                                                                ? "status-cancelled"
-                                                                : reservation.status === "Completed"
-                                                                ? "status-completed"
-                                                                : "status-pending"
+                                                                    ? "status-cancelled"
+                                                                    : reservation.status === "Completed"
+                                                                        ? "status-completed"
+                                                                        : "status-pending"
                                                         }`}
                                                     >
                                                         {reservation.status}
