@@ -245,6 +245,16 @@
     color: #9a4545;
 }
 
+.status-available {
+    background: #e8f3ec;
+    color: #39734d;
+}
+
+.status-unavailable {
+    background: #f8e6e6;
+    color: #9a4545;
+}
+
 .tm-loading {
     padding: 45px;
     text-align: center;
