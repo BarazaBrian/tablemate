@@ -200,14 +200,11 @@ function ResTables() {
 
                 <div className="tm-header">
                     <div>
-                        <p className="tm-brand">
-                            TableMate
-                        </p>
 
                         <h1>Restaurant Tables</h1>
 
                         <p className="tm-subtitle">
-                            Manage your restaurant table inventory.
+                            Manage restaurant table inventory
                         </p>
                     </div>
 

@@ -229,14 +229,10 @@ function Reservation() {
 
                 <div className="tm-header">
                     <div>
-                        <p className="tm-brand">
-                            TableMate
-                        </p>
-
                         <h1>Reservations</h1>
 
                         <p className="tm-subtitle">
-                            Manage your restaurant reservation records.
+                            Manage restaurant reservation records
                         </p>
                     </div>
 

@@ -203,14 +203,11 @@ function Customers() {
 
                 <div className="tm-header">
                     <div>
-                        <p className="tm-brand">
-                            TableMate
-                        </p>
-
+                
                         <h1>Customers</h1>
 
                         <p className="tm-subtitle">
-                            Manage your restaurant customer records.
+                            Manage restaurant customer records
                         </p>
                     </div>
 

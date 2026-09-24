@@ -11,10 +11,11 @@
 }
 
 .navbar-brand a {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #8a5a44;
   text-decoration: none;
+  padding-left: 25px;
 }
 
 .navbar-links {

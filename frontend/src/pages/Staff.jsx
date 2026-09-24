@@ -206,14 +206,10 @@ function Staff() {
 
                 <div className="tm-header">
                     <div>
-                        <p className="tm-brand">
-                            TableMate
-                        </p>
-
                         <h1>Staff</h1>
 
                         <p className="tm-subtitle">
-                            Manage your restaurant staff records.
+                            Manage restaurant staff records
                         </p>
                     </div>
 
