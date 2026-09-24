@@ -4,6 +4,8 @@ import './index.css'
 import Dashboard from './pages/Dashboard.jsx';
 import Customers from './pages/Customers.jsx';
 import Reservations from './pages/Reservations.jsx';
+import ResTables from './pages/ResTables.jsx';
+import Staff from './pages/Staff.jsx';
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -13,6 +15,8 @@ createRoot(document.getElementById('root')).render(
     <Dashboard />
     <Customers/>
     <Reservations/>
+    <ResTables/>
+    <Staff/>
     </>
   </StrictMode>
 );

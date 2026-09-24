@@ -93,7 +93,7 @@ const deletedResTable = (req,res) => {
         if (err) {
             console.error(err);
             return res.status(500).json({
-                message: "Error deleting restaurant table" 
+                message: "Error deleting restaurant ytable" 
             });
         }
 
