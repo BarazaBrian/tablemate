@@ -1,3 +1,5 @@
+DROP DATABASE if EXISTS tablemate_db;
+
 CREATE DATABASE IF NOT EXISTS tablemate_db;
 
 USE tablemate_db;
