@@ -164,8 +164,14 @@ function Reservation() {
         setFormData({
             customer_id: reservation.customer_id,
             table_id: reservation.table_id,
-            reservation_date: reservation.reservation_date,
-            reservation_time: reservation.reservation_time,
+            reservation_date: reservation.reservation_date
+                ? new Date(reservation.reservation_date).toISOString().split("T")[0]
+                : "",
+
+            reservation_time: reservation.reservation_time
+                ? reservation.reservation_time.slice(0, 5)
+                : "",
+
             number_of_people: reservation.number_of_people,
             status: reservation.status
         });
