@@ -119,6 +119,14 @@
     align-items: center;
 }
 
+.reservation-heading div {
+    
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
 .reservation-heading h2 {
     margin: 0;
     font-size: 1.15rem;

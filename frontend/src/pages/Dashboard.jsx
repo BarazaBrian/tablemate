@@ -189,7 +189,7 @@ function Dashboard() {
                         {/* Recent Reservations */}
                         <div className="reservation-card">
 
-                            <div className="reservation-heading">
+                            <div className="reservation-heading" >
                                 <div>
                                     <h2>
                                         Recent Reservations
@@ -200,9 +200,6 @@ function Dashboard() {
                                     </p>
                                 </div>
 
-                                <span className="view-all">
-                                    View all reservations →
-                                </span>
                             </div>
 
                             <div className="table-responsive">
