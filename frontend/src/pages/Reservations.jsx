@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Customers.css";
+import "./style.css";
 
 function Reservation() {
     const [reservations, setReservations] = useState([]);
@@ -204,24 +204,24 @@ function Reservation() {
     };
 
     return (
-        <div className="customers-page">
-            <div className="customers-container">
+        <div className="tm-page">
+            <div className="tm-container">
 
-                <div className="customers-header">
+                <div className="tm-header">
                     <div>
-                        <p className="customers-brand">
+                        <p className="tm-brand">
                             TableMate
                         </p>
 
                         <h1>Reservations</h1>
 
-                        <p className="customers-subtitle">
+                        <p className="tm-subtitle">
                             Manage your restaurant reservation records.
                         </p>
                     </div>
 
                     <button
-                        className="add-customer-button"
+                        className="tm-add-btn"
                         onClick={() => {
                             resetForm();
                             setShowForm(true);
@@ -234,21 +234,21 @@ function Reservation() {
                 </div>
 
                 {message && (
-                    <div className="customer-success">
+                    <div className="tm-success">
                         {message}
                     </div>
                 )}
 
                 {error && (
-                    <div className="customer-error">
+                    <div className="tm-error">
                         {error}
                     </div>
                 )}
 
                 {showForm && (
-                    <div className="customer-form-card">
+                    <div className="tm-form-card">
 
-                        <div className="form-heading">
+                        <div className="tm-form-heading">
                             <div>
                                 <h2>
                                     {editingId
@@ -265,11 +265,11 @@ function Reservation() {
                         </div>
 
                         <form
-                            className="customer-form"
+                            className="tm-form"
                             onSubmit={handleSubmit}
                         >
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="customer_id">
                                     Customer
                                 </label>
@@ -290,7 +290,7 @@ function Reservation() {
                                 </select>
                             </div>
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="table_id">
                                     Table
                                 </label>
@@ -311,7 +311,7 @@ function Reservation() {
                                 </select>
                             </div>
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="reservation_date">
                                     Date
                                 </label>
@@ -325,7 +325,7 @@ function Reservation() {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="reservation_time">
                                     Time
                                 </label>
@@ -339,7 +339,7 @@ function Reservation() {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="number_of_people">
                                     Number of People
                                 </label>
@@ -354,7 +354,7 @@ function Reservation() {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="tm-form-group">
                                 <label htmlFor="status">
                                     Status
                                 </label>
@@ -374,10 +374,10 @@ function Reservation() {
                                 </select>
                             </div>
 
-                            <div className="form-actions">
+                            <div className="tm-form-actions">
                                 <button
                                     type="submit"
-                                    className="save-button"
+                                    className="tm-save-btn"
                                 >
                                     {editingId
                                         ? "Update Reservation"
@@ -386,7 +386,7 @@ function Reservation() {
 
                                 <button
                                     type="button"
-                                    className="cancel-button"
+                                    className="tm-cancel-btn"
                                     onClick={resetForm}
                                 >
                                     Cancel
@@ -397,9 +397,9 @@ function Reservation() {
                     </div>
                 )}
 
-                <div className="customer-list-card">
+                <div className="tm-list-card">
 
-                    <div className="customer-list-heading">
+                    <div className="tm-list-heading">
                         <div>
                             <h2>Reservation Directory</h2>
 
@@ -411,13 +411,13 @@ function Reservation() {
                     </div>
 
                     {loading ? (
-                        <div className="customers-loading">
+                        <div className="tm-loading">
                             Loading reservations...
                         </div>
                     ) : (
                         <div className="table-responsive">
 
-                            <table className="customers-table">
+                            <table className="tm-table">
 
                                 <thead>
                                     <tr>
@@ -437,7 +437,7 @@ function Reservation() {
                                         <tr>
                                             <td
                                                 colSpan="7"
-                                                className="empty-customers"
+                                                className="tm-empty"
                                             >
                                                 No reservations available.
                                             </td>
@@ -447,7 +447,7 @@ function Reservation() {
                                             <tr
                                                 key={reservation.reservation_id}
                                             >
-                                                <td className="customer-table-name">
+                                                <td className="tm-cell-name">
                                                     {reservation.customer_name}
                                                 </td>
 
@@ -484,10 +484,10 @@ function Reservation() {
                                                 </td>
 
                                                 <td>
-                                                    <div className="customer-actions">
+                                                    <div className="tm-cell-actions">
 
                                                         <button
-                                                            className="edit-button"
+                                                            className="tm-edit-btn"
                                                             onClick={() =>
                                                                 handleEdit(
                                                                     reservation
@@ -498,7 +498,7 @@ function Reservation() {
                                                         </button>
 
                                                         <button
-                                                            className="delete-button"
+                                                            className="tm-delete-btn"
                                                             onClick={() =>
                                                                 handleDelete(
                                                                     reservation.reservation_id
