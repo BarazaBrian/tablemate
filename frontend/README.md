@@ -1,16 +1,38 @@
-# React + Vite
+Summative for Full Stack web Development
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Team Members:
+Tooshar 
+Brian
 
-Currently, two official plugins are available:
+Group Project: TableMate - A Restaurant reservation system
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+How to run:
 
-## React Compiler
+Start Database Server
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+If database does not already exist, create it by quering database.sql
+For our case, we are using MySQL database from XAMPP 
+Note that the sql has example data which can be removed
 
-## Expanding the ESLint configuration
+Add databse connection to .env in this format : {
+    DB_HOST=localhost
+    DB_USER=root
+    DB_PASSWORD=
+    DB_NAME=tablemate_db
+    DB_PORT=3306
+}
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Go to Backend and start Backend server with command:
+node app.js
+
+Go to FrontEnd and start FrontEnd server with command:
+npm run dev
+
+Open URL provided in the command line in the browser which should be:
+http://localhost:5173/
+
+Use the website
+
+Documentation (using swagger):
+When the both servers are running, navigate to 
+http://localhost:5000/api-docs/
