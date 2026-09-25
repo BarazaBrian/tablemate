@@ -6,11 +6,14 @@ const staffRoutes = require("./routes/staffRoutes");
 const reservationRoutes = require("./routes/reservationRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const resTableRoutes = require("./routes/resTableRoutes")
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger/swagger");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/customers", customerRoutes);
 app.use("/api/staff", staffRoutes);
