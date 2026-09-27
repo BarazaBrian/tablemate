@@ -36,3 +36,6 @@ Use the website
 Documentation (using swagger):
 When the both servers are running, navigate to 
 http://localhost:5000/api-docs/
+
+
+Video Presentation: https://canva.link/web-dev-video-brian-tooshar 
